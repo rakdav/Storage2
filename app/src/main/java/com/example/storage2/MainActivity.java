@@ -8,8 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -53,6 +55,18 @@ public class MainActivity extends AppCompatActivity {
         String t=text.getText().toString();
         fos=new FileOutputStream(getExternalPath());
         fos.write(t.getBytes());
+        Toast.makeText(getApplicationContext(),"Файл успешно сохранен",Toast.LENGTH_SHORT).show();
+        if(fos!=null) fos.close();
+    }
 
+    private void readText() throws IOException {
+        FileInputStream fin=null;
+        File file=getExternalPath();
+        if(!file.exists()) return;
+        fin=new FileInputStream(file);
+        byte[] bytes=new byte[fin.available()];
+        fin.read(bytes);
+        String t=new String(bytes);
+        textReader.setText(t);
     }
 }
